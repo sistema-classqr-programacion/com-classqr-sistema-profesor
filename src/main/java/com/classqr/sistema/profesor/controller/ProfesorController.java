@@ -14,7 +14,6 @@ public class ProfesorController {
 
     private final IQueryProfesorService iQueryProfesorService;
 
-    @CrossOrigin(origins = "http://localhost:4200") // Habilita CORS solo para este método
     @PostMapping("/login")
     public ResponseEntity<RespuestaGeneralDTO> loginProfesor(@RequestBody LoginProfesorDTO loginProfesorDTO){
         RespuestaGeneralDTO respuestaGeneralDTO = iQueryProfesorService.loginProfesor(loginProfesorDTO);

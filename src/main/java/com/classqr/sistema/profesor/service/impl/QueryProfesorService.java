@@ -16,6 +16,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -35,16 +36,20 @@ public class QueryProfesorService implements IQueryProfesorService {
     @Override
     public RespuestaGeneralDTO loginProfesor(LoginProfesorDTO loginProfesorDTO) {
         RespuestaGeneralDTO respuestaGeneralDto = new RespuestaGeneralDTO();
-        respuestaGeneralDto.setMessage("Se inicio correctamente");
-        respuestaGeneralDto.setStatus(HttpStatus.OK);
+
         try{
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginProfesorDTO.getNumeroDocumento(), loginProfesorDTO.getPassword()));
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginProfesorDTO.getNumeroDocumento(), loginProfesorDTO.getPassword()));
+            log.error(authentication.isAuthenticated());
             ProfesorEntity profesor = profesorReplicaRepository.findByNumeroDocumento(loginProfesorDTO.getNumeroDocumento());
             UserDetails user = new ProfesorSeguridadDTO(profesorMapper.entityToDto(profesor));
             String token = jwtService.getToken(user);
             respuestaGeneralDto.setData(AuthResponseDTO.builder().token(token).build());
+            respuestaGeneralDto.setMessage("Se inicio correctamente");
+            respuestaGeneralDto.setStatus(HttpStatus.OK);
         }catch (Exception e){
             log.error("Error ", e);
+            respuestaGeneralDto.setMessage("Hubo un problema en las credenciales");
+            respuestaGeneralDto.setStatus(HttpStatus.UNAUTHORIZED);
         }
         return respuestaGeneralDto;
     }
