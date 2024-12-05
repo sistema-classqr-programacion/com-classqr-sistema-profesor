@@ -8,7 +8,7 @@ WORKDIR /app
 COPY target/profesor-0.0.1-SNAPSHOT.jar profesor-ms.jar
 
 # Expone el puerto 8001
-EXPOSE 8002
+EXPOSE 8004
 
 # Comando para ejecutar la aplicación
 ENTRYPOINT ["java", "-jar", "profesor-ms.jar"]
