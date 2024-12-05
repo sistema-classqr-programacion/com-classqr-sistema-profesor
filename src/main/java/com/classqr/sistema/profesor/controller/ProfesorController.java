@@ -1,3 +1,7 @@
+/**
+ * Controlador para gestionar las operaciones relacionadas con los profesores.
+ * Proporciona un endpoint para el inicio de sesión de los profesores.
+ */
 package com.classqr.sistema.profesor.controller;
 
 import com.classqr.sistema.commons.dto.RespuestaGeneralDTO;
@@ -12,11 +16,20 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ProfesorController {
 
+    /**
+     * Servicio para manejar las consultas y operaciones relacionadas con los profesores.
+     */
     private final IQueryProfesorService iQueryProfesorService;
 
+    /**
+     * Endpoint para realizar el inicio de sesión de un profesor.
+     *
+     * @param loginProfesorDTO objeto que contiene las credenciales del profesor.
+     * @return un objeto {@link ResponseEntity} que contiene un {@link RespuestaGeneralDTO} con el resultado del inicio de sesión.
+     */
     @PostMapping("/login")
-    public ResponseEntity<RespuestaGeneralDTO> loginProfesor(@RequestBody LoginProfesorDTO loginProfesorDTO){
+    public ResponseEntity<RespuestaGeneralDTO> loginProfesor(@RequestBody LoginProfesorDTO loginProfesorDTO) {
         RespuestaGeneralDTO respuestaGeneralDTO = iQueryProfesorService.loginProfesor(loginProfesorDTO);
-        return ResponseEntity.status(respuestaGeneralDTO.getStatus()).body(respuestaGeneralDTO);    }
-
+        return ResponseEntity.status(respuestaGeneralDTO.getStatus()).body(respuestaGeneralDTO);
+    }
 }

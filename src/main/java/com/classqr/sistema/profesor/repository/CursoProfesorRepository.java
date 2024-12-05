@@ -1,3 +1,7 @@
+/**
+ * Repositorio JPA para gestionar las operaciones relacionadas con la entidad {@link CursoProfesorEntity}.
+ * Este repositorio maneja las asociaciones entre profesores y cursos.
+ */
 package com.classqr.sistema.profesor.repository;
 
 import com.classqr.sistema.commons.dto.CursoProfesorDTO;
@@ -14,6 +18,12 @@ import java.util.List;
 @Repository
 public interface CursoProfesorRepository extends JpaRepository<CursoProfesorEntity, CursoProfesorIdEntiy> {
 
+    /**
+     * Obtiene una lista de todos los cursos asignados a un profesor específico.
+     *
+     * @param codigoProfesor el código único del profesor.
+     * @return una lista de entidades {@link CursoEntity} que representan los cursos asignados al profesor.
+     */
     @Query("""
         SELECT cp.codigoCursoEntityFk FROM CursoProfesorEntity cp WHERE cp.codigoProfesorEntityFk.codigoProfesor = :codigoProfesor
     """)
